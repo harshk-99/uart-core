@@ -12,27 +12,27 @@ module uart #(
   parameter PARITY_EN = 0,
 	parameter STOP = 0
 ) (
-	input clk_i, 
-	input rst_i
+	input 				clk_i, 
+	input 				rst_i,
+	input 			  tx_start_i,
+	input 			  rx_start_i,
+	input  [7:0]  tx_data_i,
+	input  [7:0]  rx_data_i, //! external
+	input  [16:0] baud_i,
+	input  [3:0]  length_i,
+	input 			  parity_type_i, 
+	input 			  parity_en_i,
+	input 			  stop2_i,
+	output 			  tx_done_o,
+	output        rx_done_o,
+	output 			  tx_err_o,
+	output 			  rx_err_o,
+	output [7:0]  tx_data_o, //! external
+	output [7:0]  rx_out_o
  );
  
  generate
 	if (VERIFICATION_MODE == 1 || SOC_COMPLIANT == 1) begin: VERIFICATION_SOC
-		input 			  tx_start_i;
-		input 			  rx_start_i;
-		input  [7:0]  tx_data_i;
-		input  [16:0] baud_i;
-		input  [3:0]  length_i;
-		input 			  parity_type_i; 
-		input 			  parity_en_i;
-		input 			  stop2_i;
-		output 			  tx_done_o;
-		output        rx_done_o;
-		output 			  tx_err_o;
-		output 			  rx_err_o;
-		output [7:0]  rx_out_o;
-
-
 		wire tx_clk, rx_clk;
 		wire tx_rx;
 
@@ -73,11 +73,6 @@ module uart #(
 		);
 
 	end else begin: BARE_METAL
-		input  [7:0]  tx_data_i; //! internal
-		input  [7:0]  rx_data_i; //! external
-		output [7:0]  tx_data_o; //! external
-		output [7:0]  rx_out_o;  //! internal
-
 		wire tx_clk, rx_clk;
 
 		localparam TX_START = 1;

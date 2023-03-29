@@ -1,7 +1,4 @@
-`timescale 1ns / 1ps
-`include "clock_generator.sv"
-`include "uart_tx.sv"
-`include "uart_rx.sv"
+`timescale 1ns / 1ns
 
 module uart #(
   parameter VERIFICATION_MODE = 0,
